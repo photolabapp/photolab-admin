@@ -1,9 +1,22 @@
 import React from "react";
 import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react";
+import { getOrders, getUserById } from '../services/Api'
 
 import PageTitle from "../components/common/PageTitle";
 
-const Orders = () => (
+const Orders = () => {
+  getOrders().then(response => {
+    response.data.map(order => {
+      getUserById(order.user_id).then(user => {
+        order.user = user.data
+      }).catch(error => console.log("Orders screen get user error " + error))
+    })
+    screen(response)
+  }).catch(error => console.log("Orders screen get orders error " + error))
+}
+
+const screen = (orders) => (
+
   <Container fluid className="main-content-container px-4">
     {/* Page Header */}
     <Row noGutters className="page-header py-4">
@@ -39,14 +52,16 @@ const Orders = () => (
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Mauricio</td>
-                  <td>14/10/2019 08:00:00</td>
-                  <td>14/10/2019 13:43:00</td>
-                  <td>Criado</td>
-                  <td>4</td>
-                </tr>
+                {orders.map(order => (
+                  <tr>
+                    <td>{order.id}</td>
+                    <td>{order.user.name}</td>
+                    <td>{order.dtCreate}</td>
+                    <td>14/10/2019 13:43:00</td>
+                    <td>{order.status}</td>
+                    <td>4</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </CardBody>

@@ -26,7 +26,7 @@ export default function() {
     {
       title: "Pedidos",
       htmlBefore: '<i class="material-icons">table_chart</i>',
-      to: "/ordersF",
+      to: "/orders",
     },
     {
       title: "Perfil do usuário",
