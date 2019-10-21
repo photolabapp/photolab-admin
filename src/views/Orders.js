@@ -1,4 +1,4 @@
-import React, { Component, useReducer } from "react";
+import React, { Component } from "react";
 import { Container, Row, Col, Card, CardBody } from "shards-react";
 import { getOrders, getUserById } from '../services/Api'
 
@@ -12,19 +12,24 @@ export default class Orders extends Component {
     }
 
     componentDidMount() {
-        getOrders().then(response => {
-            var orders = []
-            response.data.forEach(order => {
-                console.log("LOG ------ user id " + order.user_id)
-                getUserById(order.user_id).then(user => {
-                    console.log("LOG ------ user " + user.data.name)
-                    order.user = user.data
-                    orders.push(order)
-                }
-                ).catch(error => console.log("Orders screen get user error " + error))
-            })
-            this.setState({ orders: orders })
-        }).catch(error => console.log("Orders screen get orders error " + error))
+        getOrders().then(async response =>
+            this.setState({ orders: await this.updateUser(response.data) })
+        ).catch(error => console.log("Orders screen get orders error " + error))
+    }
+
+    updateUser = async (orders) => {
+        var updateOrders = []
+        for (const [order] of orders.entries()) {
+            order.user = await this.getUser(order.userId)
+            updateOrders.push(order)
+        }
+
+        return updateOrders
+    }
+
+    getUser = async (userId) => {
+        let res = await getUserById(userId);
+        return await res.data.user;
     }
 
     render() {
@@ -65,11 +70,11 @@ export default class Orders extends Component {
                                     </thead>
                                     <tbody>
                                         {(this.state.orders != null) ? this.state.orders.map(order => (
-                                            <tr>
+                                            <tr key={order.id}>
                                                 <td>{order.id}</td>
                                                 <td>{order.user.name}</td>
                                                 <td>{order.dtCreate}</td>
-                                                <td>14/10/2019 13:43:00</td>
+                                                <td>{order.dtUpdate}</td>
                                                 <td>{order.status}</td>
                                                 <td>4</td>
                                             </tr>
