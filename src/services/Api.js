@@ -4,14 +4,16 @@ const axios = Axios.create({
     baseURL: "http://localhost:8080",
     responseType: "json",
     headers: {
-        'Access-Control-Allow-Origin': '*',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+        "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS"
     },
 });
 
 export const getOrders = () => {
-    return axios.get("order/all")
+    return axios.get("/order/all")
 }
 
-export const getUserById = userId => {
-    return axios.get("user/id", userId)
+export const getUserById = user => {
+    return axios.get("/user/id", { user: user })
 }

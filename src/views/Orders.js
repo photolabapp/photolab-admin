@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useReducer } from "react";
 import { Container, Row, Col, Card, CardBody } from "shards-react";
 import { getOrders, getUserById } from '../services/Api'
 
@@ -13,10 +13,17 @@ export default class Orders extends Component {
 
     componentDidMount() {
         getOrders().then(response => {
+            var orders = []
             response.data.forEach(order => {
-                getUserById(order.user_id).then(user => order.user = user).catch(error => console.log("Orders screen get user error " + error))
-                this.setState({ orders: order })
+                console.log("LOG ------ user id " + order.user_id)
+                getUserById(order.user_id).then(user => {
+                    console.log("LOG ------ user " + user.data.name)
+                    order.user = user.data
+                    orders.push(order)
+                }
+                ).catch(error => console.log("Orders screen get user error " + error))
             })
+            this.setState({ orders: orders })
         }).catch(error => console.log("Orders screen get orders error " + error))
     }
 
@@ -57,7 +64,7 @@ export default class Orders extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {(this.state.orders != null)?this.state.orders.map(order => (
+                                        {(this.state.orders != null) ? this.state.orders.map(order => (
                                             <tr>
                                                 <td>{order.id}</td>
                                                 <td>{order.user.name}</td>
@@ -66,7 +73,7 @@ export default class Orders extends Component {
                                                 <td>{order.status}</td>
                                                 <td>4</td>
                                             </tr>
-                                        )):<tr></tr>}
+                                        )) : <tr></tr>}
                                     </tbody>
                                 </table>
                             </CardBody>
