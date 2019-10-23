@@ -7,6 +7,7 @@ import { DefaultLayout } from "./layouts";
 // Route Views
 import Overview from "./views/Overview";
 import UserProfileLite from "./views/UserProfileLite";
+import Login from "./views/Login";
 import AddNewPost from "./views/AddNewPost";
 import Errors from "./views/Errors";
 import ComponentsOverview from "./views/ComponentsOverview";
@@ -19,6 +20,11 @@ export default [
     exact: true,
     layout: DefaultLayout,
     component: () => <Redirect to="/overview" />
+  },
+  {
+    path: "/login",
+    layout: DefaultLayout,
+    component: Login
   },
   {
     path: "/overview",
