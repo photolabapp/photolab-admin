@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Container, Row, Col } from "shards-react";
+import { Row, Col } from "shards-react";
+import { View } from "react-dom"
 
 import PageTitle from "../components/common/PageTitle";
 import SmallStats from "../components/common/SmallStats";
