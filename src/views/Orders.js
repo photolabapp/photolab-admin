@@ -17,11 +17,12 @@ export default class Orders extends Component {
         ).catch(error => console.log("Orders screen get orders error " + error))
     }
 
-    updateUser = async (orders) => {
+    updateUser = async orders => {
         var updateOrders = []
-        for (const [order] of orders.entries()) {
-            order.user = await this.getUser(order.userId)
-            updateOrders.push(order)
+        for (let key in orders) {
+            console.log("LSDKLSKDLS ---- LSDSKDLS " + orders[key])
+            orders[key].user = await this.getUser(orders[key].userId)
+            updateOrders.push(orders[key])
         }
 
         return updateOrders
