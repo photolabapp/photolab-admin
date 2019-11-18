@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Card, CardBody } from "shards-react";
-import { getOrders, getUserById } from '../services/Api'
+import { getOrders, getUserById, getOrderPhotosByOrderId } from '../services/Api'
 
 import PageTitle from "../components/common/PageTitle";
 
@@ -20,8 +20,8 @@ export default class Orders extends Component {
     updateUser = async orders => {
         var updateOrders = []
         for (let key in orders) {
-            console.log("LSDKLSKDLS ---- LSDSKDLS " + orders[key])
             orders[key].user = await this.getUser(orders[key].userId)
+            orders[key].photos = await this.getQtdPhotos(orders[key].id)
             updateOrders.push(orders[key])
         }
 
@@ -31,6 +31,15 @@ export default class Orders extends Component {
     getUser = async (userId) => {
         let res = await getUserById(userId);
         return await res.data.user;
+    }
+
+    getQtdPhotos = async (orderid) => {
+        let res = await getOrderPhotosByOrderId(orderid);
+        qtd = 1;
+        for (album in res.data.albuns) {
+            qtd = qtd + (1 * album.quantity)
+        }
+        return await qtd;
     }
 
     render() {
@@ -77,7 +86,7 @@ export default class Orders extends Component {
                                                 <td>{order.dtCreate}</td>
                                                 <td>{order.dtUpdate}</td>
                                                 <td>{order.status}</td>
-                                                <td>4</td>
+                                                <td>{order.photos}</td>
                                             </tr>
                                         )) : <tr></tr>}
                                     </tbody>

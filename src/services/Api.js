@@ -18,3 +18,7 @@ export const getOrders = () => {
 export const getUserById = user => {
     return axios.get("/user/" + user)
 }
+
+export const getOrderPhotosByOrderId = order => {
+    return axios.get("/order/photo/order/" + order)
+}
