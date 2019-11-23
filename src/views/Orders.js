@@ -35,8 +35,8 @@ export default class Orders extends Component {
 
     getQtdPhotos = async (orderid) => {
         let res = await getOrderPhotosByOrderId(orderid);
-        qtd = 1;
-        for (album in res.data.albuns) {
+        var qtd = 1;
+        for (let album in res.data.albuns) {
             qtd = qtd + (1 * album.quantity)
         }
         return await qtd;
