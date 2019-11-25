@@ -35,9 +35,12 @@ export default class Orders extends Component {
 
     getQtdPhotos = async (orderid) => {
         let res = await getOrderPhotosByOrderId(orderid);
-        var qtd = 1;
-        for (let album in res.data.albuns) {
-            qtd = qtd + (1 * album.quantity)
+        let albuns = res.data
+        var qtd = 0;
+        console.log("LSKDSLDK ---  " + res.data)
+        for (let key in albuns) {
+            console.log("LSKDSLDK --- album " + albuns[key])
+            qtd = qtd + (1 * albuns[key].quantity)
         }
         return await qtd;
     }
