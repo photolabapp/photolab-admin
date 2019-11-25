@@ -12,6 +12,7 @@ import AddNewPost from "./views/AddNewPost";
 import Errors from "./views/Errors";
 import ComponentsOverview from "./views/ComponentsOverview";
 import Orders from "./views/Orders";
+import OrderDetail from "./views/OrderDetail";
 import BlogPosts from "./views/BlogPosts";
 
 export default [
@@ -55,6 +56,11 @@ export default [
     path: "/orders",
     layout: DefaultLayout,
     component: Orders
+  },
+  {
+    path: "/order/:id",
+    layout: DefaultLayout,
+    component: OrderDetail
   },
   {
     path: "/blog-posts",

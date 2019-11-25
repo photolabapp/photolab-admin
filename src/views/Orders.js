@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Card, CardBody } from "shards-react";
+import { Link } from 'react-router-dom'
 import { getOrders, getUserById, getOrderPhotosByOrderId } from '../services/Api'
 
 import PageTitle from "../components/common/PageTitle";
@@ -26,6 +27,10 @@ export default class Orders extends Component {
         }
 
         return updateOrders
+    }
+
+    openOrderDetail = id => {
+        console.log("KSDKSDJKD CLALLLL OPEN ORDER " + id)
     }
 
     getUser = async (userId) => {
@@ -83,9 +88,11 @@ export default class Orders extends Component {
                                     </thead>
                                     <tbody>
                                         {(this.state.orders != null) ? this.state.orders.map(order => (
-                                            <tr key={order.id}>
-                                                <td>{order.id}</td>
-                                                <td>{order.user.name}</td>
+                                            <tr key={order.id} >
+                                                <td>
+                                                    <Link to={`/order/${order.id}`}>{order.id}</Link>
+                                                </td>
+                                                <td>{(order.user) ? order.user.name : ""}</td>
                                                 <td>{order.dtCreate}</td>
                                                 <td>{order.dtUpdate}</td>
                                                 <td>{order.status}</td>
