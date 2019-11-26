@@ -4,6 +4,7 @@ import {
     Row,
     Col,
     Card,
+    CardBody,
     CardHeader,
     ListGroup,
     ListGroupItem,
@@ -14,6 +15,7 @@ import {
     FormTextarea,
     Button
 } from "shards-react";
+import { getUserById, getOrderPhotosByOrderId, getOrder } from '../services/Api'
 
 import PageTitle from "../components/common/PageTitle";
 
@@ -21,23 +23,48 @@ export default class OrderDetail extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { order: null }
+        this.state = {
+            order: null,
+            id: null
+        }
     }
 
     componentDidMount() {
         const { match: { params } } = this.props;
-        console.log("SLDKSLDKSLD --- order id " + params.id)
+        this.setState({ id: params.id })
+
+        /*
+        getOrder(params.id).then(async response => {
+            order = response.data
+            order = await this.updateUser(order)
+            order = await this.updateAlbum(order)
+            this.setState({ order: order })
+        }).catch(error => console.log("Orders screen get orders error " + error))
+        */
+    }
+
+    updateUser = async order => {
+        order.user = await getUserById(order.userId).data.user
+        return order
+    }
+    Ò
+    updateAlbum = async order => {
+        order.album = await getOrderPhotosByOrderId(order.userId).data
+        return order
     }
 
     render() {
         return (
             <Container fluid className="main-content-container px-4">
                 <Row noGutters className="page-header py-4">
-                    <PageTitle title="Detalhes do pedido" subtitle="Pedido" md="12" className="ml-sm-auto mr-sm-auto" />
+                    <PageTitle title={"Detalhes do pedido #" + this.state.id} subtitle="Pedido" md="12" className="ml-sm-auto mr-sm-auto" />
                 </Row>
                 <Row>
                     <Col >
                         <Card small className="mb-4">
+                            <CardHeader className="border-bottom">
+                                <h6 className="m-0">Cliente</h6>
+                            </CardHeader>
                             <ListGroup flush>
                                 <ListGroupItem className="p-3">
                                     <Row>
@@ -91,57 +118,123 @@ export default class OrderDetail extends Component {
                                                         />
                                                     </Col>
                                                 </Row>
-                                                <FormGroup>
-                                                    <label htmlFor="feAddress">Numero do pedido</label>
-                                                    <FormInput
-                                                        id="feAddress"
-                                                        placeholder="Address"
-                                                        value="1234 Main St."
-                                                        onChange={() => { }}
-                                                    />
-                                                </FormGroup>
-                                                <Row form>
-                                                    {/* City */}
-                                                    <Col md="6" className="form-group">
-                                                        <label htmlFor="feCity">City</label>
-                                                        <FormInput
-                                                            id="feCity"
-                                                            placeholder="City"
-                                                            onChange={() => { }}
-                                                        />
-                                                    </Col>
-                                                    {/* State */}
-                                                    <Col md="4" className="form-group">
-                                                        <label htmlFor="feInputState">State</label>
-                                                        <FormSelect id="feInputState">
-                                                            <option>Choose...</option>
-                                                            <option>...</option>
-                                                        </FormSelect>
-                                                    </Col>
-                                                    {/* Zip Code */}
-                                                    <Col md="2" className="form-group">
-                                                        <label htmlFor="feZipCode">Zip</label>
-                                                        <FormInput
-                                                            id="feZipCode"
-                                                            placeholder="Zip"
-                                                            onChange={() => { }}
-                                                        />
-                                                    </Col>
-                                                </Row>
-                                                <Row form>
-                                                    {/* Description */}
-                                                    <Col md="12" className="form-group">
-                                                        <label htmlFor="feDescription">Description</label>
-                                                        <FormTextarea id="feDescription" rows="5" />
-                                                    </Col>
-                                                </Row>
-                                                <Button theme="accent">Update Account</Button>
                                             </Form>
                                         </Col>
                                     </Row>
                                 </ListGroupItem>
                             </ListGroup>
                         </Card>
+
+                        <Card small className="mb-4">
+                            <CardHeader className="border-bottom">
+                                <h6 className="m-0">Pedido</h6>
+                            </CardHeader>
+                            <ListGroup flush>
+                                <ListGroupItem className="p-3">
+                                    <Row>
+                                        <Col>
+                                            <Form>
+                                                <Row form>
+                                                    {/* First Name */}
+                                                    <Col md="6" className="form-group">
+                                                        <label htmlFor="feName">Número do pedido</label>
+                                                        <FormInput
+                                                            id="feLastName"
+                                                            placeholder="Last Name"
+                                                            value="Brooks"
+                                                            onChange={() => { }}
+                                                        />
+                                                    </Col>
+                                                    {/* Last Name */}
+                                                    <Col md="6" className="form-group">
+                                                        <label htmlFor="feLastName">Data do pedido</label>
+                                                        <FormInput
+                                                            id="feLastName"
+                                                            placeholder="Last Name"
+                                                            value="Brooks"
+                                                            onChange={() => { }}
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                                <Row form>
+                                                    {/* Email */}
+                                                    <Col md="6" className="form-group">
+                                                        <label htmlFor="feEmail">Valor</label>
+                                                        <FormInput
+                                                            type="email"
+                                                            id="feEmail"
+                                                            placeholder="Email Address"
+                                                            value="sierra@example.com"
+                                                            onChange={() => { }}
+                                                            autoComplete="email"
+                                                        />
+                                                    </Col>
+                                                    {/* Password */}
+                                                    <Col md="6" className="form-group">
+                                                        <label htmlFor="fePassword">Status</label>
+                                                        <FormInput
+                                                            type="password"
+                                                            id="fePassword"
+                                                            placeholder="Password"
+                                                            value="EX@MPL#P@$$w0RD"
+                                                            onChange={() => { }}
+                                                            autoComplete="current-password"
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                            </Form>
+                                        </Col>
+                                    </Row>
+                                </ListGroupItem>
+                            </ListGroup>
+                        </Card>
+
+                        <Card small className="mb-4">
+                            <CardHeader className="border-bottom">
+                                <h6 className="m-0">Fotos</h6>
+                            </CardHeader>
+                            <CardBody className="p-0 pb-3">
+                                <table className="table mb-0">
+                                    <thead className="bg-light">
+                                        <tr>
+                                            <th scope="col" className="border-0">
+                                                Número
+                                            </th>
+                                            <th scope="col" className="border-0">
+                                                Usuário
+                                            </th>
+                                            <th scope="col" className="border-0">
+                                                Data Criação
+                                            </th>
+                                            <th scope="col" className="border-0">
+                                                Ultima atualização
+                                            </th>
+                                            <th scope="col" className="border-0">
+                                                Status
+                                            </th>
+                                            <th scope="col" className="border-0">
+                                                Qtd. Fotos
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {(this.state.orders != null) ? this.state.orders.map(order => (
+                                            <tr key={order.id} >
+                                                <td>
+
+                                                </td>
+                                                <td>{(order.user) ? order.user.name : ""}</td>
+                                                <td>{order.dtCreate}</td>
+                                                <td>{order.dtUpdate}</td>
+                                                <td>{order.status}</td>
+                                                <td>{order.photos}</td>
+                                            </tr>
+                                        )) : <tr></tr>}
+                                    </tbody>
+                                </table>
+                            </CardBody>
+                        </Card>
+
                     </Col>
                 </Row>
             </Container>

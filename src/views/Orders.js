@@ -29,10 +29,6 @@ export default class Orders extends Component {
         return updateOrders
     }
 
-    openOrderDetail = id => {
-        console.log("KSDKSDJKD CLALLLL OPEN ORDER " + id)
-    }
-
     getUser = async (userId) => {
         let res = await getUserById(userId);
         return await res.data.user;

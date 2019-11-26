@@ -15,6 +15,10 @@ export const getOrders = () => {
     return axios.get("/order/all")
 }
 
+export const getOrder = order => {
+    return axios.get("/order/" + order)
+}
+
 export const getUserById = user => {
     return axios.get("/user/" + user)
 }
