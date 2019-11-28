@@ -33,14 +33,12 @@ export default class OrderDetail extends Component {
         const { match: { params } } = this.props;
         this.setState({ id: params.id })
 
-        /*
         getOrder(params.id).then(async response => {
             order = response.data
             order = await this.updateUser(order)
             order = await this.updateAlbum(order)
             this.setState({ order: order })
         }).catch(error => console.log("Orders screen get orders error " + error))
-        */
     }
 
     updateUser = async order => {
@@ -73,48 +71,40 @@ export default class OrderDetail extends Component {
                                                 <Row form>
                                                     {/* First Name */}
                                                     <Col md="6" className="form-group">
-                                                        <label htmlFor="feName">Cliente</label>
+                                                        <label htmlFor="odCliName">Nome</label>
                                                         <FormInput
-                                                            id="feLastName"
-                                                            placeholder="Last Name"
-                                                            value="Brooks"
-                                                            onChange={() => { }}
+                                                            id="odCliName"
+                                                            placeholder="Nome"
+                                                            value={this.state.order.user.name}
                                                         />
                                                     </Col>
                                                     {/* Last Name */}
                                                     <Col md="6" className="form-group">
-                                                        <label htmlFor="feLastName">E-mail</label>
+                                                        <label htmlFor="odCliEmail">E-mail</label>
                                                         <FormInput
-                                                            id="feLastName"
-                                                            placeholder="Last Name"
-                                                            value="Brooks"
-                                                            onChange={() => { }}
+                                                            id="odCliEmail"
+                                                            placeholder="E-mail"
+                                                            value={this.state.order.user.email}
                                                         />
                                                     </Col>
                                                 </Row>
                                                 <Row form>
                                                     {/* Email */}
                                                     <Col md="6" className="form-group">
-                                                        <label htmlFor="feEmail">Telefone</label>
+                                                        <label htmlFor="odCliCellPhone">Telefone</label>
                                                         <FormInput
-                                                            type="email"
-                                                            id="feEmail"
-                                                            placeholder="Email Address"
-                                                            value="sierra@example.com"
-                                                            onChange={() => { }}
-                                                            autoComplete="email"
+                                                            id="odCliCellPhone"
+                                                            placeholder="Telefone"
+                                                            value={this.state.order.user.cellPhone}
                                                         />
                                                     </Col>
                                                     {/* Password */}
                                                     <Col md="6" className="form-group">
-                                                        <label htmlFor="fePassword">Data de cadastro</label>
+                                                        <label htmlFor="odCliDtCreate">Data de cadastro</label>
                                                         <FormInput
-                                                            type="password"
-                                                            id="fePassword"
-                                                            placeholder="Password"
-                                                            value="EX@MPL#P@$$w0RD"
-                                                            onChange={() => { }}
-                                                            autoComplete="current-password"
+                                                            id="odCliDtCreate"
+                                                            placeholder="Data de cadastro"
+                                                            value={this.order.user.dtCreate}
                                                         />
                                                     </Col>
                                                 </Row>
@@ -137,27 +127,15 @@ export default class OrderDetail extends Component {
                                                 <Row form>
                                                     {/* First Name */}
                                                     <Col md="6" className="form-group">
-                                                        <label htmlFor="feName">Número do pedido</label>
+                                                        <label htmlFor="odNumberOrder">Número do pedido</label>
                                                         <FormInput
-                                                            id="feLastName"
-                                                            placeholder="Last Name"
-                                                            value="Brooks"
+                                                            id="odNumberOrder"
+                                                            placeholder="Número do pedido"
+                                                            value={this.state.order.id}
                                                             onChange={() => { }}
                                                         />
                                                     </Col>
                                                     {/* Last Name */}
-                                                    <Col md="6" className="form-group">
-                                                        <label htmlFor="feLastName">Data do pedido</label>
-                                                        <FormInput
-                                                            id="feLastName"
-                                                            placeholder="Last Name"
-                                                            value="Brooks"
-                                                            onChange={() => { }}
-                                                        />
-                                                    </Col>
-                                                </Row>
-                                                <Row form>
-                                                    {/* Email */}
                                                     <Col md="6" className="form-group">
                                                         <label htmlFor="feEmail">Valor</label>
                                                         <FormInput
@@ -167,6 +145,18 @@ export default class OrderDetail extends Component {
                                                             value="sierra@example.com"
                                                             onChange={() => { }}
                                                             autoComplete="email"
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                                <Row form>
+                                                    {/* Email */}
+                                                    <Col md="6" className="form-group">
+                                                        <label htmlFor="odDtCreate">Data do pedido</label>
+                                                        <FormInput
+                                                            id="odDtCreate"
+                                                            placeholder="Data do pedido"
+                                                            value={this.state.order.dtCreate}
+                                                            onChange={() => { }}
                                                         />
                                                     </Col>
                                                     {/* Password */}
@@ -198,36 +188,30 @@ export default class OrderDetail extends Component {
                                     <thead className="bg-light">
                                         <tr>
                                             <th scope="col" className="border-0">
-                                                Número
+                                                Id
                                             </th>
                                             <th scope="col" className="border-0">
-                                                Usuário
+                                                Nome
                                             </th>
                                             <th scope="col" className="border-0">
-                                                Data Criação
+                                                Tipo
                                             </th>
                                             <th scope="col" className="border-0">
-                                                Ultima atualização
+                                                Formato
                                             </th>
                                             <th scope="col" className="border-0">
-                                                Status
-                                            </th>
-                                            <th scope="col" className="border-0">
-                                                Qtd. Fotos
+                                                Quantidade
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {(this.state.orders != null) ? this.state.orders.map(order => (
+                                        {(this.state.order != null && this.state.order.album.length > 0) ? this.state.order.album.map(album => (
                                             <tr key={order.id} >
-                                                <td>
-
-                                                </td>
-                                                <td>{(order.user) ? order.user.name : ""}</td>
-                                                <td>{order.dtCreate}</td>
-                                                <td>{order.dtUpdate}</td>
-                                                <td>{order.status}</td>
-                                                <td>{order.photos}</td>
+                                                <td>{album.id}</td>
+                                                <td>{album.photo}</td>
+                                                <td>{album.type}</td>
+                                                <td>{order.format}</td>
+                                                <td>{order.quantity}</td>
                                             </tr>
                                         )) : <tr></tr>}
                                     </tbody>
