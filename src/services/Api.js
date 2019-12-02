@@ -12,7 +12,7 @@ const axios = Axios.create({
 });
 
 export const getOrders = () => {
-    return axios.get("/order/all")
+    return axios.get("/order")
 }
 
 export const getOrder = order => {
@@ -24,5 +24,5 @@ export const getUserById = user => {
 }
 
 export const getOrderPhotosByOrderId = order => {
-    return axios.get("/order/photo/order/" + order)
+    return axios.get("/photo/order/" + order)
 }
