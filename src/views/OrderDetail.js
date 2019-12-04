@@ -223,10 +223,7 @@ export default class OrderDetail extends Component {
                                         )) : <tr></tr>}
                                     </tbody>
                                 </table>
-                                {(this.state.order != null) ?
-                                    <a target="_blank"  href={"http://ec2-18-234-166-48.compute-1.amazonaws.com:8080/photo/images/order/" + this.state.id}>Dowload de todas as fotos</a>
-                                    : null
-                                }
+                                <a target="_blank"  href={"http://ec2-18-234-166-48.compute-1.amazonaws.com:8080/photo/images/order/" + this.state.id}>Dowload de todas as fotos</a>
                             </CardBody>
                         </Card>
 
