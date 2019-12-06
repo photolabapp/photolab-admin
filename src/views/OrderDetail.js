@@ -24,7 +24,10 @@ export default class OrderDetail extends Component {
         super(props);
 
         this.state = {
-            order: null,
+            order: {
+                user: {},
+                album: {}
+            },
             id: null
         }
     }
@@ -39,13 +42,13 @@ export default class OrderDetail extends Component {
     }
 
     updateUser = async order => {
-        order.user = await getUserById(order.userId).data.user
-        return order
+        let res = await getUserById(order.userId)
+        return await res.data.user
     }
-    Ò
+
     updateAlbum = async order => {
-        order.album = await getOrderPhotosByOrderId(order.userId).data
-        return order
+        let res = await getOrderPhotosByOrderId(order.id)
+        return await res.data
     }
 
     render() {
@@ -101,7 +104,7 @@ export default class OrderDetail extends Component {
                                                         <FormInput
                                                             id="odCliDtCreate"
                                                             placeholder="Data de cadastro"
-                                                            value={this.order.user.dtCreate}
+                                                            value={this.state.order.user.dtCreate}
                                                         />
                                                     </Col>
                                                 </Row>
@@ -134,12 +137,12 @@ export default class OrderDetail extends Component {
                                                     </Col>
                                                     {/* Last Name */}
                                                     <Col md="6" className="form-group">
-                                                        <label htmlFor="feEmail">Valor</label>
+                                                        <label htmlFor="odValue">Valor</label>
                                                         <FormInput
-                                                            type="email"
-                                                            id="feEmail"
-                                                            placeholder="Email Address"
-                                                            value="sierra@example.com"
+                                                            type="number"
+                                                            id="odValue"
+                                                            placeholder="Valor"
+                                                            value=""
                                                             onChange={() => { }}
                                                             autoComplete="email"
                                                         />
@@ -158,14 +161,12 @@ export default class OrderDetail extends Component {
                                                     </Col>
                                                     {/* Password */}
                                                     <Col md="6" className="form-group">
-                                                        <label htmlFor="fePassword">Status</label>
+                                                        <label htmlFor="odStatus">Status</label>
                                                         <FormInput
-                                                            type="password"
-                                                            id="fePassword"
-                                                            placeholder="Password"
-                                                            value="EX@MPL#P@$$w0RD"
+                                                            id="odStatus"
+                                                            placeholder="Status"
+                                                            value={this.state.order.status}
                                                             onChange={() => { }}
-                                                            autoComplete="current-password"
                                                         />
                                                     </Col>
                                                 </Row>
@@ -199,20 +200,25 @@ export default class OrderDetail extends Component {
                                             <th scope="col" className="border-0">
                                                 Quantidade
                                             </th>
+                                            <th scope="col" className="border-0">
+                                                Ver Foto
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {(this.state.order != null && this.state.order.album.length > 0) ? this.state.order.album.map(album => (
-                                            <tr key={order.id} >
+                                            <tr key={album.id} >
                                                 <td>{album.id}</td>
                                                 <td>{album.photo}</td>
                                                 <td>{album.type}</td>
-                                                <td>{order.format}</td>
-                                                <td>{order.quantity}</td>
+                                                <td>{album.format}</td>
+                                                <td>{album.quantity}</td>
+                                                <td><a target="_blank" href={"http://ec2-18-234-166-48.compute-1.amazonaws.com:8080/photo/image/" + album.id}>Foto</a></td>
                                             </tr>
                                         )) : <tr></tr>}
                                     </tbody>
                                 </table>
+                                <a target="_blank"  href={"http://ec2-18-234-166-48.compute-1.amazonaws.com:8080/photo/images/order/" + this.state.id}>Dowload de todas as fotos</a>
                             </CardBody>
                         </Card>
 
