@@ -13,9 +13,7 @@ export default class Orders extends Component {
     }
 
     componentDidMount() {
-        getOrders().then(async response =>
-            this.setState({ orders: await this.updateUser(response.data) })
-        ).catch(error => console.log("Orders screen get orders error " + error))
+        getOrders().then(async response => this.setState({ orders: response.data }) ).catch(error => console.log("Orders screen get orders error " + error))
     }
 
     updateUser = async orders => {

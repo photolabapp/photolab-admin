@@ -33,12 +33,9 @@ export default class OrderDetail extends Component {
         const { match: { params } } = this.props;
         this.setState({ id: params.id })
 
-        getOrder(params.id).then(async response => {
-            order = response.data
-            order = await this.updateUser(order)
-            order = await this.updateAlbum(order)
-            this.setState({ order: order })
-        }).catch(error => console.log("Orders screen get orders error " + error))
+        getOrder(params.id)
+            .then(async response => this.setState({ order: response.data }))
+            .catch(error => console.log("Orders screen get orders error " + error))
     }
 
     updateUser = async order => {
