@@ -37,8 +37,12 @@ export default class OrderDetail extends Component {
         this.setState({ id: params.id })
 
         getOrder(params.id)
-            .then(async response => this.setState({ order: response.data }))
-            .catch(error => console.log("Orders screen get orders error " + error))
+            .then(async response => {
+                this.setState({ order: response.data })
+            })
+            .catch(error => {
+                console.log("Orders screen get orders error " + error)
+            })
     }
 
     updateUser = async order => {
@@ -218,7 +222,7 @@ export default class OrderDetail extends Component {
                                         )) : <tr></tr>}
                                     </tbody>
                                 </table>
-                                <a target="_blank"  href={"http://ec2-18-234-166-48.compute-1.amazonaws.com:8080/photo/images/order/" + this.state.id}>Dowload de todas as fotos</a>
+                                <a target="_blank" style={{ marginLeft: 10 }} href={"http://ec2-18-234-166-48.compute-1.amazonaws.com:8080/photo/images/order/" + this.state.id}>Dowload de todas as fotos</a>
                             </CardBody>
                         </Card>
 
