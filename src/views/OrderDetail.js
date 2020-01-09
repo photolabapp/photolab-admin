@@ -217,12 +217,12 @@ export default class OrderDetail extends Component {
                                                 <td>{album.type}</td>
                                                 <td>{album.format}</td>
                                                 <td>{album.quantity}</td>
-                                                <td><a target="_blank" href={"http://ec2-18-234-166-48.compute-1.amazonaws.com:8080/photo/image/" + album.id}>Foto</a></td>
+                                                <td><a target="_blank" href={"http://192.168.0.7:8080/photo/image/" + album.id}>Foto</a></td>
                                             </tr>
                                         )) : <tr></tr>}
                                     </tbody>
                                 </table>
-                                <a target="_blank" style={{ marginLeft: 10 }} href={"http://ec2-18-234-166-48.compute-1.amazonaws.com:8080/photo/images/order/" + this.state.id}>Dowload de todas as fotos</a>
+                                <a target="_blank" style={{ marginLeft: 10 }} href={"http://192.168.0.7:8080/photo/images/order/" + this.state.id}>Dowload de todas as fotos</a>
                             </CardBody>
                         </Card>
 
