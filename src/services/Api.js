@@ -2,7 +2,8 @@ import Axios from 'axios'
 
 const axios = Axios.create({
     //baseURL: "http://ec2-3-84-164-8.compute-1.amazonaws.com:8080",
-    baseURL: "http://192.168.0.7:8080",
+    //baseURL: "http://192.168.0.7:8080",
+    baseURL: "http://ec2-34-201-70-135.compute-1.amazonaws.com:8080",
     responseType: "json",
     headers: {
         "Access-Control-Allow-Origin": "*",
@@ -10,6 +11,14 @@ const axios = Axios.create({
         "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS"
     },
 });
+
+export const login = (user) => {
+    return axios.post("/collaborator/login", user)
+}
+
+export const collaborator = (user) => {
+    return axios.post("/collaborator", user)
+}
 
 export const getOrders = () => {
     return axios.get("/order")

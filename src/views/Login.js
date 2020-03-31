@@ -1,174 +1,254 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Row, Col } from "shards-react";
-import { View } from "react-dom"
+import React, { useState, useEffect } from "react";
+import {
+    Row,
+    Col,
+    Card,
+    ListGroup,
+    ListGroupItem,
+    FormInput,
+    Button,
+} from "shards-react";
+import { Redirect } from "react-router-dom";
+import { login } from '../services/Api'
 
-import PageTitle from "../components/common/PageTitle";
-import SmallStats from "../components/common/SmallStats";
-import UsersOverview from "../components/blog/UsersOverview";
-import UsersByDevice from "../components/blog/UsersByDevice";
-import NewDraft from "../components/blog/NewDraft";
-import Discussions from "../components/blog/Discussions";
-import TopReferrals from "../components/common/TopReferrals";
+const Login = () => {
 
-const Overview = ({ smallStats }) => (
-    <View>
-        {/* Page Header */}
-        <Row noGutters className="page-header py-4">
-            <PageTitle title="Blog Overview" subtitle="Dashboard" className="text-sm-left mb-3" />
-        </Row>
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [error, setError] = useState({})
+    const [isLogged, setIsLogged] = useState(false)
 
-        {/* Small Stats Blocks */}
-        <Row>
-            {smallStats.map((stats, idx) => (
-                <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
-                    <SmallStats
-                        id={`small-stats-${idx}`}
-                        variation="1"
-                        chartData={stats.datasets}
-                        chartLabels={stats.chartLabels}
-                        label={stats.label}
-                        value={stats.value}
-                        percentage={stats.percentage}
-                        increase={stats.increase}
-                        decrease={stats.decrease}
-                    />
-                </Col>
-            ))}
-        </Row>
+    useEffect(() => {
+        document.body.style = 'background: #31383E;';
+    }, [])
 
-        <Row>
-            {/* Users Overview */}
-            <Col lg="8" md="12" sm="12" className="mb-4">
-                <UsersOverview />
-            </Col>
-
-            {/* Users by Device */}
-            <Col lg="4" md="6" sm="12" className="mb-4">
-                <UsersByDevice />
-            </Col>
-
-            {/* New Draft */}
-            <Col lg="4" md="6" sm="12" className="mb-4">
-                <NewDraft />
-            </Col>
-
-            {/* Discussions */}
-            <Col lg="5" md="12" sm="12" className="mb-4">
-                <Discussions />
-            </Col>
-
-            {/* Top Referrals */}
-            <Col lg="3" md="12" sm="12" className="mb-4">
-                <TopReferrals />
-            </Col>
-        </Row>
-    </View>
-);
-
-Overview.propTypes = {
-    /**
-     * The small stats dataset.
-     */
-    smallStats: PropTypes.array
-};
-
-Overview.defaultProps = {
-    smallStats: [
-        {
-            label: "Posts",
-            value: "2,390",
-            percentage: "4.7%",
-            increase: true,
-            chartLabels: [null, null, null, null, null, null, null],
-            attrs: { md: "6", sm: "6" },
-            datasets: [
-                {
-                    label: "Today",
-                    fill: "start",
-                    borderWidth: 1.5,
-                    backgroundColor: "rgba(0, 184, 216, 0.1)",
-                    borderColor: "rgb(0, 184, 216)",
-                    data: [1, 2, 1, 3, 5, 4, 7]
-                }
-            ]
-        },
-        {
-            label: "Pages",
-            value: "182",
-            percentage: "12.4",
-            increase: true,
-            chartLabels: [null, null, null, null, null, null, null],
-            attrs: { md: "6", sm: "6" },
-            datasets: [
-                {
-                    label: "Today",
-                    fill: "start",
-                    borderWidth: 1.5,
-                    backgroundColor: "rgba(23,198,113,0.1)",
-                    borderColor: "rgb(23,198,113)",
-                    data: [1, 2, 3, 3, 3, 4, 4]
-                }
-            ]
-        },
-        {
-            label: "Comments",
-            value: "8,147",
-            percentage: "3.8%",
-            increase: false,
-            decrease: true,
-            chartLabels: [null, null, null, null, null, null, null],
-            attrs: { md: "4", sm: "6" },
-            datasets: [
-                {
-                    label: "Today",
-                    fill: "start",
-                    borderWidth: 1.5,
-                    backgroundColor: "rgba(255,180,0,0.1)",
-                    borderColor: "rgb(255,180,0)",
-                    data: [2, 3, 3, 3, 4, 3, 3]
-                }
-            ]
-        },
-        {
-            label: "New Customers",
-            value: "29",
-            percentage: "2.71%",
-            increase: false,
-            decrease: true,
-            chartLabels: [null, null, null, null, null, null, null],
-            attrs: { md: "4", sm: "6" },
-            datasets: [
-                {
-                    label: "Today",
-                    fill: "start",
-                    borderWidth: 1.5,
-                    backgroundColor: "rgba(255,65,105,0.1)",
-                    borderColor: "rgb(255,65,105)",
-                    data: [1, 7, 1, 3, 1, 4, 8]
-                }
-            ]
-        },
-        {
-            label: "Subscribers",
-            value: "17,281",
-            percentage: "2.4%",
-            increase: false,
-            decrease: true,
-            chartLabels: [null, null, null, null, null, null, null],
-            attrs: { md: "4", sm: "6" },
-            datasets: [
-                {
-                    label: "Today",
-                    fill: "start",
-                    borderWidth: 1.5,
-                    backgroundColor: "rgb(0,123,255,0.1)",
-                    borderColor: "rgb(0,123,255)",
-                    data: [3, 2, 3, 2, 4, 5, 4]
-                }
-            ]
+    const doLogin = () => {
+        console.log("LOGINNNNNNNNN -- " + JSON.stringify(email) + " password " + JSON.stringify(password))
+        var errorValidate = {}
+        if (email.length === 0) {
+            errorValidate.email = "E-mail é obrigatório!"
+        } else if (password.length === 0) {
+            errorValidate.password = "Senha é obrigatório!"
         }
-    ]
-};
 
-export default Overview;
+        if (Object.keys(errorValidate).length > 0) {
+            setError(errorValidate)
+        } else {
+            setError({})
+            console.log("LOGINNNNNNNNN -------- CALL")
+            login({
+                email: email,
+                password: password
+            }).then(user => {
+                document.body.style = 'background: #F5F6F8;';
+                setIsLogged(true)
+                console.log("LOGINNNNNNNNN -------- success " + JSON.stringify(user))
+            }).catch(error => {
+                console.log("LOGINNNNNNNNN -------- error " + JSON.stringify(error))
+                errorValidate = {}
+                errorValidate.login = "Usuário ou senha inválido"
+                setError(errorValidate)
+            })
+        }
+    }
+
+    const onChangeEmail = (event) => {
+        setEmail(event.target.value)
+    }
+
+    const onChangePassword = (event) => {
+        setPassword(event.target.value)
+    }
+
+    return (
+        (isLogged) ?
+            <Redirect to='/orders' />
+            :
+            <div style={{
+                height: "100vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                <div style={{ width: "30%" }}>
+                    <Row>
+                        <img
+                            id="main-logo"
+                            className=""
+                            style={{ maxWidth: "160px", marginLeft: 16, marginBottom: 8 }}
+                            src={require("../images/photolab-logo.png")}
+                            alt="PhotoLab"
+                        />
+                    </Row>
+                    <Row>
+                        <Col >
+                            <Card small className="">
+                                <form>
+                                    <ListGroup flush>
+                                        <ListGroupItem className="p-3">
+                                            {error["login"] ?
+                                                <Row>
+                                                    <Col>
+                                                        <label style={{ color: "red", fontSize: 10 }}>{error["login"]}</label>
+                                                    </Col>
+                                                </Row>
+                                                : null}
+                                            <Row>
+                                                <Col>
+                                                    <Row form>
+                                                        {/* First Name */}
+                                                        <Col md="12" className="form-group">
+                                                            <label htmlFor="lgEmail">E-mail</label>
+                                                            <FormInput
+                                                                id="lgEmail"
+                                                                placeholder="E-mail"
+                                                                value={email}
+                                                                onChange={onChangeEmail} />
+                                                            {error["email"] ?
+                                                                <label style={{ color: "red", fontSize: 10 }}>{error["email"]}</label>
+                                                                : null
+                                                            }
+                                                        </Col>
+                                                    </Row>
+                                                    <Row form>
+                                                        <Col md="12" className="form-group">
+                                                            <label htmlFor="lgPassword">Senha</label>
+                                                            <FormInput
+                                                                id="lgPassword"
+                                                                placeholder="Senha"
+                                                                type="password"
+                                                                value={password}
+                                                                onChange={onChangePassword}
+                                                            />
+                                                            {error["password"] ?
+                                                                <label style={{ color: "red", fontSize: 10 }}>{error["password"]}</label>
+                                                                : null
+                                                            }
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <Button theme="accent" onClick={doLogin} style={{ width: "100%" }}>Entrar</Button>
+                                                </Col>
+                                            </Row>
+                                        </ListGroupItem>
+                                    </ListGroup>
+                                </form>
+                            </Card>
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+    )
+}
+
+export default Login
+
+/*
+export default class Login extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            order: {
+                user: {},
+                album: {}
+            },
+            id: null
+        }
+    }
+
+    componentDidMount() {
+        const { match: { params } } = this.props;
+        this.setState({ id: params.id })
+
+        document.body.style = 'background: #31383E;';
+
+                getOrder(params.id)
+                    .then(async response => {
+                        this.setState({ order: response.data })
+                    })
+                    .catch(error => {
+                        console.log("Orders screen get orders error " + error)
+                    })
+    }
+
+    updateUser = async order => {
+        let res = await getUserById(order.userId)
+        return await res.data.user
+    }
+
+    updateAlbum = async order => {
+        let res = await getOrderPhotosByOrderId(order.id)
+        return await res.data
+    }
+
+    render() {
+        return (
+            <div style={{
+                height: "100vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                <div style={{ width: "30%" }}>
+                    <Row>
+                        <img
+                            id="main-logo"
+                            className=""
+                            style={{ maxWidth: "160px", marginLeft: 16, marginBottom: 8 }}
+                            src={require("../images/photolab-logo.png")}
+                            alt="PhotoLab"
+                        />
+                    </Row>
+                    <Row>
+                        <Col >
+                            <Card small className="">
+                                <ListGroup flush>
+                                    <ListGroupItem className="p-3">
+                                        <Row>
+                                            <Col>
+                                                <Form>
+                                                    <Row form>
+                                                        }
+                                                        <Col md="12" className="form-group">
+                                                            <label htmlFor="lgEmail">E-mail</label>
+                                                            <FormInput
+                                                                id="lgEmail"
+                                                                placeholder="E-mail"
+                                                                value={this.state.order.user.name}
+                                                            />
+                                                        </Col>
+                                                    </Row>
+                                                    <Row form>
+                                                        <Col md="12" className="form-group">
+                                                            <label htmlFor="lgPassword">Senha</label>
+                                                            <FormInput
+                                                                id="lgPassword"
+                                                                placeholder="Senha"
+                                                                type="password"
+                                                                value={this.state.order.user.email}
+                                                            />
+                                                        </Col>
+                                                    </Row>
+                                                </Form>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                <Button theme="accent" style={{width: "100%"}}>Entrar</Button>
+                                            </Col>
+                                        </Row>
+                                    </ListGroupItem>
+                                </ListGroup>
+                            </Card>
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+        )
+    }
+}
+*/
