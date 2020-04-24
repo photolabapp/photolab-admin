@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux"
+import { updateUser } from '../store/UserAction'
 import {
     Row,
     Col,
@@ -17,6 +19,7 @@ const Login = () => {
     const [password, setPassword] = useState("")
     const [error, setError] = useState({})
     const [isLogged, setIsLogged] = useState(false)
+    const dispatch = useDispatch();
 
     useEffect(() => {
         document.body.style = 'background: #31383E;';
@@ -40,6 +43,7 @@ const Login = () => {
                 email: email,
                 password: password
             }).then(user => {
+                dispatch(updateUser(user.data.collaborator))
                 document.body.style = 'background: #F5F6F8;';
                 setIsLogged(true)
                 console.log("LOGINNNNNNNNN -------- success " + JSON.stringify(user))
