@@ -59,7 +59,7 @@ const UserAccountDetails = ({ title }) => {
                                             type="password"
                                             id="fePassword"
                                             placeholder="Senha"
-                                            value="EX@MPL#P@$$w0RD"
+                                            value=""
                                             onChange={() => { }}
                                             autoComplete="current-password"
                                         />
@@ -68,10 +68,10 @@ const UserAccountDetails = ({ title }) => {
                                     <Col md="6" className="form-group">
                                         <label htmlFor="fePassword">Confirmar Senha</label>
                                         <FormInput
-                                            type="confirmPassword"
+                                            type="password"
                                             id="feConfirmPassword"
                                             placeholder="Confirmar Senha"
-                                            value="EX@MPL#P@$$w0RD"
+                                            value=""
                                             onChange={() => { }}
                                             autoComplete="current-password"
                                         />

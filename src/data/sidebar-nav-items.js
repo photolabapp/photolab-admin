@@ -2,7 +2,7 @@ export default function () {
     return [
         {
             title: "Dashboard",
-            to: "/blog-overview",
+            to: "/overview",
             htmlBefore: '<i class="material-icons">edit</i>',
             htmlAfter: ""
         },
@@ -32,6 +32,11 @@ export default function () {
             title: "Funcionários",
             htmlBefore: '<i class="material-icons">people_alt</i>',
             to: "/collaborators",
+        },
+        {
+            title: "Clientes",
+            htmlBefore: '<i class="material-icons">mood</i>',
+            to: "/customers",
         },
         {
             title: "Perfil do usuário",

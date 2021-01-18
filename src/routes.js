@@ -16,6 +16,8 @@ import OrderDetail from "./views/OrderDetail";
 import BlogPosts from "./views/BlogPosts";
 import ListCollaborator from "./views/Collaborator/ListCollaborator";
 import CreateCollaborator from "./views/Collaborator/CreateCollaborator";
+import ListCustomer from "./views/Customer/ListCustomer";
+import EditCustomer from "./views/Customer/EditCustomer";
 
 export default [
   {
@@ -63,6 +65,16 @@ export default [
     path: "/collaborator/:id",
     layout: DefaultLayout,
     component: CreateCollaborator
+  },
+  {
+    path: "/customers",
+    layout: DefaultLayout,
+    component: ListCustomer
+  },
+  {
+    path: "/customer/:id",
+    layout: DefaultLayout,
+    component: EditCustomer
   },
   {
     path: "/orders",

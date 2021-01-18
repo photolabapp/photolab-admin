@@ -36,8 +36,28 @@ export const getOrder = order => {
     return axios.get("/order/" + order)
 }
 
+export const getAddressByCustomer = customer => {
+    return axios.get("/address/user/" + customer)
+}
+
+export const getCardsByCustomer = customer => {
+    return axios.get("/creditCard/user/" + customer)
+}
+
+export const getCustomers = () => {
+    return axios.get("/user/")
+}
+
+export const getCustomer = user => {
+    return axios.get("/user/" + user)
+}
+
 export const getUserById = user => {
     return axios.get("/user/" + user)
+}
+
+export const updateCustomer = customer => {
+    return axios.put("/user/", customer)
 }
 
 export const getOrderPhotosByOrderId = order => {
